@@ -15,31 +15,50 @@ class Competence extends Model
     protected $allowSort = ['id','nombre_competencia','descripcion','anexo','instructor_id','slug'];
 
 
-     public function scopeIncluded(Builder $query){
+    //  public function scopeIncluded(Builder $query){
 
-         if(empty($this->allowIncluded)||empty(request('included'))){
-             return;
-         }
+    //      if(empty($this->allowIncluded)||empty(request('included'))){
+    //          return;
+    //      }
 
-         $relations = explode(',', request('included'));//['posts','relation2']
+    //      $relations = explode(',', request('included'));//['posts','relation2']
 
 
 
-         $allowIncluded = collect($this->allowIncluded);//colocamos en una colecion lo que tiene $allowIncluded en este caso = ['posts','posts.user']
+    //      $allowIncluded = collect($this->allowIncluded);//colocamos en una colecion lo que tiene $allowIncluded en este caso = ['posts','posts.user']
 
-         foreach($relations as $key => $relationship)
-         {//recorremos el array de relaciones
+    //      foreach($relations as $key => $relationship)
+    //      {//recorremos el array de relaciones
 
-            if(!$allowIncluded->contains($relationship))
-            {
-                unset($relations[$key]);
-            }
+    //         if(!$allowIncluded->contains($relationship))
+    //         {
+    //             unset($relations[$key]);
+    //         }
 
-         }
+    //      }
 
-        $query->with($relations);//se ejecuta el query con lo que tiene $relations en ultimas es el valor en la url de included
+    //     $query->with($relations);//se ejecuta el query con lo que tiene $relations en ultimas es el valor en la url de included
 
-     }
+    //  }
+    public function scopeIncluded(Builder $query)
+    {
+        if (empty($this->allowIncluded) || empty(request('included'))) {
+            return $query;
+        }
+
+        $requestedRelations = explode(',', request('included'));
+
+        $allowedRelations = collect($this->allowIncluded);
+
+        $includedRelations = $allowedRelations->filter(function ($relationship) use ($requestedRelations) {
+            return in_array($relationship, $requestedRelations);
+        })->toArray();
+
+        return $query->with($includedRelations);
+    }
+
+
+
 
      public function scopeFilter(Builder $query)
     {

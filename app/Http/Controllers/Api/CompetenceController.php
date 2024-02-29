@@ -39,7 +39,14 @@ class CompetenceController extends Controller
      */
     public function show(Competence $competence)
     {
-        $competences  = Competence::included()->FindOrFail($competence->id);
+        
+        $relations=[
+            'results.instructor.user',          
+            
+        ];
+        $competences  = Competence::with($relations)->FindOrFail($competence->id);
+
+        // compact($competences);
         return response()->json($competences, 200);
 
     }

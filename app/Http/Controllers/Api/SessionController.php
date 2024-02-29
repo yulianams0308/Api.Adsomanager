@@ -25,8 +25,9 @@ class SessionController extends Controller
     {
         $request->validate([
             'observacion'=> 'required|max:255',
-            'fecha_inicio'=> 'required|max:200',
-            'fecha_fin'=> 'required|max:200',
+            'fecha'=> 'required|max:20',
+            'hora_inicio'=> 'required|max:20',
+            'hora_fin'=> 'required|max:20',
             'ficha_id'=> 'required|max:255',
             'ambiente_id'=> 'required|max:255',
             'instructor_id'=> 'required|max:255',
