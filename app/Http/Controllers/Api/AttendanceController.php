@@ -16,7 +16,7 @@ class AttendanceController extends Controller
     {
         // $attendances = Attendance::all();
         $attendances=Attendance::included()->filter()->sort()->get();
-        return $attendances;
+        return response()->json($attendances);
     }
 
     /**
@@ -33,8 +33,7 @@ class AttendanceController extends Controller
         ]);
 
         $attendances = Attendance::create($request->all());
-
-        return $attendances;
+        return response()->json($attendances, 201);
     }
 
     /**
@@ -42,8 +41,8 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-        $attendance  = Attendance::included()->FindOrFail($attendance->id);
-        return $attendance;
+        $attendances  = Attendance::included()->FindOrFail($attendance->id);
+        return response()->json($attendances, 200);
     }
 
     /**
@@ -53,13 +52,13 @@ class AttendanceController extends Controller
     {
         $request->validate([
             'asistio'=> 'required|in:0,1|max:255',
-            'slug'=> 'required|max:255',
+            'slug'=> 'required|max:255|unique:attendances',
             'sesion_id'=> 'required',
             'aprendiz_id'=> 'required',
         ]);
 
         $attendance->update($request->all());
-        return $attendance;
+        return response()->json($attendance, 203);   
     }
 
     /**
@@ -68,7 +67,6 @@ class AttendanceController extends Controller
     public function destroy(Attendance $attendance)
     {
         $attendance->delete();
-
-        return $attendance;
+        return response()->json([], 204);
     }
 }

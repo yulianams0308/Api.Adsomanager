@@ -15,7 +15,7 @@ class SessionController extends Controller
     {
         // $sessions = Session::all();
         $sessions = Session::included()->filter()->sort()->get();
-        return $sessions;
+        return response()->json($sessions);
     }
 
     /**
@@ -33,8 +33,8 @@ class SessionController extends Controller
             'slug'=>'required|unique:sessions|max:255',
         ]);
 
-        $sessions = Session::create($request->all());
-        return $sessions;
+        $session = Session::create($request->all());
+        return response()->json($session, 201);
     }
 
     /**
@@ -43,7 +43,7 @@ class SessionController extends Controller
     public function show(Session $session)
     {
         $sessions  = Session::included()->FindOrFail($session->id);
-        return $sessions;
+        return response()->json($sessions, 200);
     }
 
     /**
@@ -63,7 +63,7 @@ class SessionController extends Controller
         ]);
 
         $session->update($request->all());
-        return $session;
+        return response()->json($session, 203);    
     }
 
     /**
@@ -72,6 +72,6 @@ class SessionController extends Controller
     public function destroy(Session $session)
     {
         $session->delete();
-        return $session;
+        return response()->json([], 204);
     }
 }

@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         // $users = User::all();
         $users = User::included()->filter()->sort()->get();
-        return $users;
+        return response()->json($users);
     }
 
     /**
@@ -40,9 +40,9 @@ class UserController extends Controller
             'role_id' => 'nullable',
         ]);
 
-        $users = User::create($request->all());
+        $user = User::create($request->all());
 
-        return $users;
+        return response()->json($user, 201);
     }
 
     /**
@@ -51,7 +51,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $users  = User::included()->FindOrFail($user->id);
-        return $users;
+        return response()->json($users, 200);
     }
 
     /**
@@ -77,7 +77,7 @@ class UserController extends Controller
         ]);
 
         $user->update($request->all());
-        return $user;
+        return response()->json($user, 203);    
     }
 
     /**
@@ -86,6 +86,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return $user;
+        return response()->json([], 204);
     }
 }

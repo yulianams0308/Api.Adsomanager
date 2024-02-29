@@ -15,7 +15,7 @@ class ApprenticeController extends Controller
     {
         // $apprentices=Apprentice::all();
         $apprentices=Apprentice::included()->filter()->sort()->get();
-        return $apprentices;
+        return response()->json($apprentices);
 
     }
 
@@ -31,7 +31,7 @@ class ApprenticeController extends Controller
         ]);
 
         $apprentice=Apprentice::create($request->all());
-        return $apprentice;
+        return response()->json($apprentice, 201);
     }
 
     /**
@@ -41,7 +41,8 @@ class ApprenticeController extends Controller
     {
         // $apprentices = Apprentice::with(['datasheet'])->findOrFail($apprentice->id);
         $apprentices  = Apprentice::included()->FindOrFail($apprentice->id);
-        return $apprentices;
+        return response()->json($apprentices, 200);
+        
     }
 
     /**
@@ -57,8 +58,9 @@ class ApprenticeController extends Controller
             'slug' => 'required|max:255|unique:apprentices',
         ]);
 
+        
         $apprentice->update($request->all());
-    
+        return response()->json($apprentice, 203);    
     }
 
     /*
@@ -69,7 +71,7 @@ class ApprenticeController extends Controller
     {
 
         $apprentice->delete();
-        return $apprentice;
+        return response()->json([], 204);
 
     }
 }

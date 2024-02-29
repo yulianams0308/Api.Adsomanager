@@ -16,8 +16,9 @@ class CreateSessionsTable extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->string('observacion');
-            $table->dateTime('fecha_inicio');
-            $table->dateTime('fecha_fin');
+            $table->date('fecha');
+            $table->time('hora_inicio');
+            $table->time('hora_fin');
 
             $table->unsignedBigInteger('ficha_id')->nullable();
             $table->unsignedBigInteger('ambiente_id')->nullable();

@@ -15,7 +15,7 @@ class CompetenceController extends Controller
     {
         // $competence = Competence::all();
         $competences=Competence::included()->filter()->sort()->get();
-        return $competences;
+        return response()->json($competences);
     }
 
     /**
@@ -31,8 +31,7 @@ class CompetenceController extends Controller
         ]);
 
         $competence = Competence::create($request->all());
-
-        return $competence;
+        return response()->json($competence, 201);
     }
 
     /**
@@ -41,7 +40,8 @@ class CompetenceController extends Controller
     public function show(Competence $competence)
     {
         $competences  = Competence::included()->FindOrFail($competence->id);
-        return $competences;
+        return response()->json($competences, 200);
+
     }
 
     /**
@@ -59,7 +59,7 @@ class CompetenceController extends Controller
 
         $competence->update($request->all());
 
-        return $competence;
+        return response()->json($competence, 203);   
 
     }
 
@@ -69,6 +69,6 @@ class CompetenceController extends Controller
     public function destroy(Competence $competence)
     {
         $competence->delete();
-        return $competence;
+        return response()->json([], 204);
     }
 }

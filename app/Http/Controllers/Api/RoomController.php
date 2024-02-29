@@ -15,7 +15,7 @@ class RoomController extends Controller
     {
         // $rooms = Room::all();
         $rooms = Room::included()->filter()->sort()->get();
-        return $rooms;
+        return response()->json($rooms);
     }
 
     /**
@@ -31,9 +31,8 @@ class RoomController extends Controller
             'slug'=> 'required|unique:rooms|max:255',
         ]);
 
-        $rooms = Room::create($request->all());
-
-        return $rooms;
+        $room = Room::create($request->all());
+        return response()->json($room, 201);
     }
 
     /**
@@ -42,7 +41,7 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         $rooms  = Room::included()->FindOrFail($room->id);
-        return $rooms;
+        return response()->json($rooms, 200);
     }
 
     /**
@@ -61,7 +60,7 @@ class RoomController extends Controller
 
 
         $room->update($request->all());
-        return $room;
+        return response()->json($room, 203);    
     }
 
     /**
@@ -70,6 +69,6 @@ class RoomController extends Controller
     public function destroy(Room $room)
     {
         $room->delete();
-        return $room;
+        return response()->json([], 204);
     }
 }

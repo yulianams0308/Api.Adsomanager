@@ -15,7 +15,7 @@ class RoleController extends Controller
     {
         // $roles = Role::all();
         $roles = Role::included()->filter()->sort()->get();
-        return $roles;
+        return response()->json($roles);
     }
 
     /**
@@ -28,9 +28,8 @@ class RoleController extends Controller
             'nombre_rol'=> 'required|in:Instructor,Aprendiz,Administrador|max:15',
         ]);
 
-        $roles = Role::create($request->all());
-
-        return $roles;
+        $role = Role::create($request->all());
+        return response()->json($role, 201);
 
     }
 
@@ -40,7 +39,7 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         $roles  = Role::included()->FindOrFail($role->id);
-        return $roles;
+        return response()->json($roles, 200);
     }
 
     /**
@@ -54,7 +53,7 @@ class RoleController extends Controller
         ]);
 
         $role->update($request->all());
-        return $role;
+        return response()->json($role, 203);   
     }
 
     /**
@@ -63,6 +62,6 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
-        return $role;
+        return response()->json([], 204);
     }
 }

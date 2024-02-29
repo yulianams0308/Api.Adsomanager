@@ -15,7 +15,8 @@ class InstructorController extends Controller
     {
         // $instructors = Instructor::all();
         $instructors = Instructor::included()->filter()->sort()->get();
-        return $instructors;
+        return response()->json($instructors);
+
     }
 
     /**
@@ -32,7 +33,7 @@ class InstructorController extends Controller
 
         $instructor = Instructor::create($request->all());
 
-        return $instructor;
+        return response()->json($instructor, 201);
 
     }
 
@@ -42,7 +43,7 @@ class InstructorController extends Controller
     public function show(Instructor $instructor)
     {
         $instructor  = Instructor::included()->FindOrFail($instructor->id);
-        return $instructor;
+        return response()->json($instructor, 200);
     }
 
     /**
@@ -58,7 +59,7 @@ class InstructorController extends Controller
         ]);
 
         $instructor->update($request->all());
-        return $instructor;
+        return response()->json($instructor, 203);   
     }
 
     /**
@@ -67,6 +68,6 @@ class InstructorController extends Controller
     public function destroy(Instructor $instructor)
     {
         $instructor->delete();
-        return $instructor;
+        return response()->json([], 204);
     }
 }

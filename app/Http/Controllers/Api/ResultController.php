@@ -15,7 +15,7 @@ class ResultController extends Controller
     {
         //$results = Result::all();
         $results = Result::included()->filter()->sort()->get();
-        return $results;
+        return response()->json($results);
     }
 
     /**
@@ -36,17 +36,17 @@ class ResultController extends Controller
         ]);
 
         $instructor = Instructor::create($request->all());
-        return $instructor;
+        return response()->json($instructor, 201);
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $result)
+    public function show(Result $result)
     {
-        $result  = Result::included()->FindOrFail($result);
-        return $result;
+        $results  = Result::included()->FindOrFail($result->id);
+        return response()->json($results, 200);
     }
 
     /**
@@ -67,7 +67,7 @@ class ResultController extends Controller
         ]);
 
         $result->update($request->all());
-        return $result;
+        return response()->json($result, 203);    
     }
 
     /**
@@ -76,7 +76,7 @@ class ResultController extends Controller
     public function destroy(Result $result)
     {
         $result->delete();
-
-        return $result;
+        return response()->json([], 204);
+        
     }
 }

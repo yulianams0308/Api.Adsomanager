@@ -14,7 +14,7 @@ class DatasheetController extends Controller
     {
         //$datasheets = Datasheet::all();
         $datasheets=Datasheet::included()->filter()->sort()->get();
-        return $datasheets;
+        return response()->json($datasheets);
     }
 
     /**
@@ -30,7 +30,7 @@ class DatasheetController extends Controller
             ]
         );
         $datasheet = Datasheet::create($request->all());
-        return $datasheet;
+        return response()->json($datasheet, 201);
 
     }
 
@@ -40,7 +40,7 @@ class DatasheetController extends Controller
     public function show(Datasheet $datasheet)
     {
         $datasheets  = Datasheet::included()->FindOrFail($datasheet->id);
-        return $datasheets;
+        return response()->json($datasheets, 200);
     }
 
     /**
@@ -57,7 +57,7 @@ class DatasheetController extends Controller
         );
 
         $datasheet->update($request->all());
-        return $datasheet;
+        return response()->json($datasheet, 203);    
     }
 
     /**
@@ -66,6 +66,7 @@ class DatasheetController extends Controller
     public function destroy(Datasheet $datasheet)
     {
         $datasheet->delete();
-        return $datasheet;
+        return response()->json([], 204);
     }
 }
+// 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Image;
-use App\Models\Competence;
+
 class ImageController extends Controller
 {
     /**
@@ -40,7 +40,7 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        $images  = Competence::included()->FindOrFail($image->id);
+        $images  = Image::included()->FindOrFail($image->id);
         return $images;
     }
 

@@ -28,8 +28,9 @@ class SessionFactory extends Factory
         // ];
         return [
             'observacion' => $this->faker->sentence,
-            'fecha_inicio' => $this->faker->dateTimeThisMonth,
-            'fecha_fin' => $this->faker->dateTimeThisMonth,
+            'fecha' => $this->faker->dateTimeThisMonth,
+            'hora_inicio' =>$this->faker->time(),
+            'hora_fin' =>$this->faker->time(),
             'slug' => $this->faker->unique()->slug,
             'ficha_id' => Datasheet::inRandomOrder()->first()->id, // Relación con Datasheet
             'ambiente_id' => Room::inRandomOrder()->first()->id, // Relación con Room
